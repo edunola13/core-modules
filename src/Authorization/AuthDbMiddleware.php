@@ -1,6 +1,6 @@
 <?php
 namespace Enola\Support\Authorization;
-//Aca va
+//Aca va 2
 /**
  * Middleware correspondiente al almacenamiento de las configuracion de autorizacion en base de datos
  * @author Eduardo Sebastian Nola <edunola13@gmail.com>
