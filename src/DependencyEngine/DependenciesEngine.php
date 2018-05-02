@@ -85,6 +85,18 @@ class DependenciesEngine {
         $this->injectDependencies($object, array($propertyName => $dependencyName));
     }
     /**
+     * Retorna una dependencia instanciada
+     * En este caso la dependencia no se injecta a ningun objeto
+     * @param string $dependencyName
+     * @return mixed
+     */
+    public function getDependencyInstance($dependencyName){
+        if(isset($this->dependencies[$dependencyName])){
+            return $this->loadDependency($dependencyName, $this->dependencies[$dependencyName]);
+        }
+        return null;
+    }    
+    /**
      * Injecta definicion de propiedades a una instancia
      * @param type $object
      * @param array $propertiesDefinition
@@ -93,7 +105,7 @@ class DependenciesEngine {
         $properties= $this->parseProperties($propertiesDefinition);
         $reflection= new Reflection($object);
         $reflection->setProperties($properties, TRUE);
-    }    
+    }
     /**
      * Carga la dependencia y la setea en la propiedad del objeto a inyectar
      * @param type $object
@@ -179,7 +191,9 @@ class DependenciesEngine {
             }else{
                 //Casteo el valor al tipo indicado
                 $property= $definition['value'];
-                settype($property, $definition['type']);
+                if($definition['value'] != 'array'){
+                    settype($property, $definition['type']);
+                }
             }
             $parseProperties[$key]= $property;
         }

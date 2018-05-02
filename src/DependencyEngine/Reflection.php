@@ -53,7 +53,7 @@ class Reflection{
      */
     public function getProperties($properties){
         $values= array();
-        foreach ($properties as $key => $value) {
+        foreach ($properties as $key) {
             $values[$key]= $this->getProperty($key);
         }
         return $values;
