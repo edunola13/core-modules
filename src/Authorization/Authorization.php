@@ -3,8 +3,7 @@ namespace Enola\Support\Authorization;
 use Enola\EnolaContext;
 /**
  * Esta clase realiza los controles de autorizacion para los diferentes modulos de su aplicacion.
- * Este servira para controlar los accesos a diferentes funcionalidades de la aplicacion como puede ser un controlador,
- * componentes, etc.
+ * Este servira para controlar los accesos a diferentes funcionalidades de la aplicacion como puede ser un controlador, etc.
  * @author Eduardo Sebastian Nola <edunola13@gmail.com>
  * @category Enola\Support
  */
@@ -251,74 +250,5 @@ class Authorization {
      */
     public function mapsKey($key, $url, $method){
         return (\Enola\Http\UrlUri::mapsActualUrl($key['url'], $url) && \Enola\Http\UrlUri::mapsActualMethod($key['method'], $method));
-    }
-    
-    /*
-     * AUTORIZACION DE COMPONENTES
-     */
-    /**
-     * Indica si el usuario logueado tiene acceso a la definicion de un componente
-     * @param Request $request
-     * @param array $component
-     * @return boolean
-     */
-    public function userHasAccessToComponentDefinition($request, $component){
-        if(isset($component['authorization-profiles']) && $component['authorization-profiles'] != ""){
-            $profiles= str_replace(' ', '', $component['authorization-profiles']);
-            $profiles= explode(',', $component['authorization-profiles']);
-            $userProfile= $this->getUserProfiles($request);
-            //Comprueba si el usuario logueado tiene o no multiples perfiles y en base a eso comprueba
-            if(is_array($userProfile)){
-                return (count(array_intersect($userProfile, $profiles)) > 0);
-            }else{
-                return in_array($userProfile, $profiles);
-            }            
-        }else{
-            //Si no esta seteado o es vacio el componente es publico
-            return TRUE;
-        }
-    }
-    /**
-     * Indica si el usuario logueado tiene acceso a un componente
-     * @param Request $request
-     * @param string $componentName
-     * @return boolean
-     */
-    public function userHasAccessToComponent($request, $componentName){
-        $component= $this->context->getComponentsDefinition()[$componentName];
-        return $this->userHasAccessToComponentDefinition($request, $component);
     }    
-    /**
-     * Indica si un conjunto de perfiles tienen acceso a un componente
-     * Si un perfil tiene acceso, el conjunto lo tiene
-     * @param string $profilesName
-     * @param string $componentName
-     * @return boolean
-     */
-    public function profilesHasAccessToComponent($profilesName, $componentName){
-        $component= $this->context->getComponentsDefinition()[$componentName];
-        if(isset($component['authorization-profiles']) && $component['authorization-profiles'] != ""){
-            $profiles= str_replace(' ', '', $component['authorization-profiles']);
-            $profiles= explode(',', $component['authorization-profiles']);
-            return (count(array_intersect($profilesName, $profiles)) > 0);
-        }else{
-            return TRUE;
-        }
-    }
-    /**
-     * Indica si un perfil tiene acceso a un componente
-     * @param string $profileName
-     * @param string $componentName
-     * @return boolean
-     */
-    public function profileHasAccessToComponent($profileName, $componentName){
-        $component= $this->context->getComponentsDefinition()[$componentName];
-        if(isset($component['authorization-profiles']) && $component['authorization-profiles'] != ""){
-            $profiles= str_replace(' ', '', $component['authorization-profiles']);
-            $profiles= explode(',', $component['authorization-profiles']);
-            return in_array($profileName, $profiles);
-        }else{
-            return TRUE;
-        }
-    }
 }

@@ -3,7 +3,6 @@
     "description": "Modulos del Nucleo del Framework Enola PHP.",
     "keywords": ["framework", "enolaphp", "core", "modules"],
     "license": "MIT",
-    "version": "1.1",
     "support": {
         "issues": "https://github.com/edunola13/core-modules/issues",
         "source": "https://github.com/edunola13/core-modules"
